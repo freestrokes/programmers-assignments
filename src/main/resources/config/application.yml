@@ -1,0 +1,23 @@
+# ====================================================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ====================================================================================================
+
+server:
+  port: 8080
+
+springdoc:
+  packages-to-scan: com.freestrokes
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    operations-sorter: method
+    tags-sorter: method
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+    doc-expansion: list
+  api-docs:
+    groups:
+      enabled: true
