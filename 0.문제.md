@@ -12,7 +12,7 @@
 - 특정 테스트 클래스의 테스트 케이스(메소드) 실행은 `mvn clean test -Dtest=TestClassName#TestMethodName` 명령으로 실행할 수 있습니다.
   * ProductRestControllerTest 클래스의 findAllSuccessTest 테스트 메소드 실행 예시: `mvn clean test -Dtest=ProductRestControllerTest#findAllSuccessTest` 
 - 개발에 필요한 데이터베이스 스키마 및 샘플 데이터가 준비되 있습니다.
-  * In-Memory 경량 RDBMS H2가 사용됩니다. **프로젝트를 재시작 할 때마다 데이c터가 초기화 됩니다.**
+  * In-Memory 경량 RDBMS H2가 사용됩니다. **프로젝트를 재시작 할 때마다 데이터가 초기화 됩니다.**
   * 데이터베이스 입출력을 위해 `SQL`을 직접 작성해야하고, `JdbcTemplate`으로 처리합니다. **(JPA 사용안함)**
   * 스키마: resources/schema-h2.sql
   * 스키마 및 API 출력 예시를 참고하여 적절한 Java 객체 모델링이 필요합니다.
