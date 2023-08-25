@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  mysql_local:
+  mysql_assignment_local:
     image: mysql:5.7.43
     platform: linux/amd64
-    container_name: mysql_local
+    container_name: mysql_assignment_local
     environment:
       - LANG=C.UTF-8
-      - MYSQL_DATABASE=testdb
+      - MYSQL_DATABASE=assignmentdb
       - MYSQL_USER=tester
       - MYSQL_PASSWORD=tester
       - MYSQL_ROOT_PASSWORD=root_password
@@ -20,6 +20,6 @@ services:
       - ./config/db:/docker-entrypoint-initdb.d
       - ./config:/etc/mysql/conf.d
     ports:
-      - "3307:3306"
+      - "3308:3306"
     healthcheck:
       test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
