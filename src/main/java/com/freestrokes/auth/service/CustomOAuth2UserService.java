@@ -63,7 +63,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 return user.updateUser(
                     oAuth2UserAttributes.get("name").toString(),
                     oAuth2UserAttributes.get("email").toString(),
-                    oAuth2UserAttributes.get("picture").toString(),
+//                    oAuth2UserAttributes.get("picture").toString(),
                     AuthConstants.Role.valueOf(user.getRole().toString())
                 );
             })
@@ -71,7 +71,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 User.builder()
                     .name(oAuth2UserAttributes.get("name").toString())
                     .email(oAuth2UserAttributes.get("email").toString())
-                    .picture(oAuth2UserAttributes.get("picture").toString())
+//                    .picture(oAuth2UserAttributes.get("picture").toString())
                     .role(AuthConstants.Role.GUEST)
                     .build()
             );
