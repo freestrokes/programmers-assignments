@@ -70,8 +70,9 @@ CREATE TABLE users
     user_id       varchar(100)  NOT NULL,           -- 사용자 PK
     name          varchar(10)   NOT NULL,           -- 사용자명
     email         varchar(50)   NOT NULL,           -- 로그인 이메일
-    passwd        varchar(80)   NOT NULL,           -- 로그인 비밀번호
+    password      varchar(80)   NOT NULL,           -- 로그인 비밀번호
     login_count   int           NOT NULL DEFAULT 0, -- 로그인 횟수. 로그인시 마다 1 증가
+    role          varchar(50)   DEFAULT NULL,        -- '권한',
     last_login_at datetime      DEFAULT NULL,       -- 최종 로그인 일자
     create_at     datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     PRIMARY KEY (user_id),
@@ -88,7 +89,7 @@ CREATE TABLE products
     PRIMARY KEY (product_id)
 );
 
-CREATE TABLE reviews
+CREATE TABLE review
 (
     review_id   varchar(100)  NOT NULL, -- 리뷰 PK
     user_id    	varchar(100)  NOT NULL, -- 리뷰 작성자 PK (users 테이블 참조)
