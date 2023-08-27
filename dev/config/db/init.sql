@@ -60,26 +60,26 @@
 
 -- local-docker-assignmentdb
 
-DROP TABLE IF EXISTS orders CASCADE;
-DROP TABLE IF EXISTS reviews CASCADE;
-DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS `orders` CASCADE;
+DROP TABLE IF EXISTS review CASCADE;
+DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS `user` CASCADE;
 
-CREATE TABLE users
+CREATE TABLE `user`
 (
     user_id       varchar(100)  NOT NULL,           -- 사용자 PK
     name          varchar(10)   NOT NULL,           -- 사용자명
     email         varchar(50)   NOT NULL,           -- 로그인 이메일
     password      varchar(80)   NOT NULL,           -- 로그인 비밀번호
     login_count   int           NOT NULL DEFAULT 0, -- 로그인 횟수. 로그인시 마다 1 증가
-    role          varchar(50)   DEFAULT NULL,        -- '권한',
+    role          varchar(50)   DEFAULT NULL,       -- 사용자 권한,
     last_login_at datetime      DEFAULT NULL,       -- 최종 로그인 일자
     create_at     datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     PRIMARY KEY (user_id),
     CONSTRAINT unq_user_email UNIQUE (email)
 );
 
-CREATE TABLE products
+CREATE TABLE product
 (
     product_id   varchar(100)   NOT NULL,           -- 상품 PK
     name         varchar(50)    NOT NULL,           -- 상품명
@@ -92,21 +92,21 @@ CREATE TABLE products
 CREATE TABLE review
 (
     review_id   varchar(100)  NOT NULL, -- 리뷰 PK
-    user_id    	varchar(100)  NOT NULL, -- 리뷰 작성자 PK (users 테이블 참조)
-    product_id 	varchar(100)  NOT NULL, -- 리뷰 상품 PK (products 테이블 참조)
+    user_id    	varchar(100)  NOT NULL, -- 리뷰 작성자 PK (user 테이블 참조)
+    product_id 	varchar(100)  NOT NULL, -- 리뷰 상품 PK (product 테이블 참조)
     content     varchar(1000) NOT NULL, -- 리뷰 내용
     create_at   datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     PRIMARY KEY (review_id),
-    CONSTRAINT fk_reviews_to_users FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_reviews_to_products FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_review_to_user FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_review_to_product FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
-CREATE TABLE orders
+CREATE TABLE `order`
 (
     order_id     varchar(100)       NOT NULL,       -- 주문 PK
-    user_id      varchar(100)       NOT NULL,       -- 주문자 PK (users 테이블 참조)
-    product_id   varchar(100)       NOT NULL,       -- 주문상품 PK (products 테이블 참조)
-    review_id    varchar(100)       DEFAULT NULL,   -- 주문에 대한 리뷰 PK (reviews 테이블 참조)
+    user_id      varchar(100)       NOT NULL,       -- 주문자 PK (user 테이블 참조)
+    product_id   varchar(100)       NOT NULL,       -- 주문상품 PK (product 테이블 참조)
+    review_id    varchar(100)       DEFAULT NULL,   -- 주문에 대한 리뷰 PK (review 테이블 참조)
     state        enum('REQUESTED','ACCEPTED','SHIPPING','COMPLETED','REJECTED') DEFAULT 'REQUESTED' NOT NULL, -- 주문상태
     request_msg  varchar(1000)      DEFAULT NULL,   -- 주문 요청 메시지
     reject_msg   varchar(1000)      DEFAULT NULL,   -- 주문 거절 메시지
@@ -115,7 +115,7 @@ CREATE TABLE orders
     create_at    datetime           NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     PRIMARY KEY (order_id),
     CONSTRAINT unq_review_id UNIQUE (review_id),
-    CONSTRAINT fk_orders_to_users FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_orders_to_products FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_orders_to_reviews FOREIGN KEY (review_id) REFERENCES reviews (review_id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_order_to_user FOREIGN KEY (user_id) REFERENCES `user` (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_order_to_product FOREIGN KEY (product_id) REFERENCES product (product_id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT fk_order_to_review FOREIGN KEY (review_id) REFERENCES review (review_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
