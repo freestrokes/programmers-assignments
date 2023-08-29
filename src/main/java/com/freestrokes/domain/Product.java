@@ -43,7 +43,6 @@ public class Product {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createAt = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 
-
     // TODO: id 필드에 sequence 적용하려는 경우엔 아래와 같이 사용.
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
