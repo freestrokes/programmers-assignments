@@ -4,6 +4,7 @@ import com.freestrokes.aop.LogExecutionTime;
 import com.freestrokes.constants.PathConstants;
 import com.freestrokes.auth.dto.AuthDto;
 import com.freestrokes.auth.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +20,11 @@ public class AuthController {
 
     private final AuthService authService;
 
-    /**
-     * 로그인
-     *
-     * @return
-     * @throws Exception
-     */
     @PostMapping(path = PathConstants.LOGIN, produces = "application/json")
+    @Operation(
+        summary = "로그인",
+        description = "아이디와 패스워드를 이용하여 로그인을 한다."
+    )
     @LogExecutionTime
     public ResponseEntity<?> login(
         @RequestBody AuthDto.RequestDto loginRequestDto,
