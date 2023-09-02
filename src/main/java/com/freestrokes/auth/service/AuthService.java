@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequiredArgsConstructor
 @Service
-public class AuthService {
+public class AuthService implements AuthRequestService {
 
     private final SecurityProperties securityProperties;
 
@@ -42,7 +42,7 @@ public class AuthService {
         AuthDto.RequestDto loginRequestDto,
         HttpServletRequest httpServletRequest,
         HttpServletResponse httpServletResponse
-    ) throws Exception {
+    ) {
 
         // 사용자 조회
         User findUser = userRepository.findByEmail(loginRequestDto.getEmail())
