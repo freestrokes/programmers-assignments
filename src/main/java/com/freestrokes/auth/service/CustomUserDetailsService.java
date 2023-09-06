@@ -25,9 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     /**
      * 사용자 조회
-     *
-     * @param email the username identifying the user whose data is required.
-     * @return
+     * @param email 사용자 이메일 (the username identifying the user whose data is required.)
+     * @return 사용자 정보
      * @throws UsernameNotFoundException
      */
     @Override
