@@ -25,6 +25,7 @@ public class AuthController {
         summary = "로그인",
         description = "아이디와 패스워드를 이용하여 로그인을 한다."
     )
+    // TODO: AOP 확인을 위해 추가 (@LogExecutionTime)
     @LogExecutionTime
     public ResponseEntity<?> login(
         @RequestBody AuthDto.RequestDto loginRequestDto,
