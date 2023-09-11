@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
 //  * 주문 리뷰작성: /api/orders/{id}/review -> POST
-//  * 주문 접수처리: /api/orders/{id}/accept -> POST
-//  * 주문 배송처리: /api/orders/{id}/shipping -> PUT
-//  * 주문 완료처리: /api/orders/{id}/complete -> PUT
-//  * 주문 거절처리: /api/orders/{id}/reject -> PUT
+//  * 주문 접수처리: /api/orders/{id}/accept -> PATCH
+//  * 주문 배송처리: /api/orders/{id}/shipping -> PATCH
+//  * 주문 완료처리: /api/orders/{id}/complete -> PATCH
+//  * 주문 거절처리: /api/orders/{id}/reject -> PATCH
 //  * 단일 주문조회: /api/orders/{id} -> GET
 //  * 주문 목록조회: /api/orders -> GET
 
@@ -55,6 +55,19 @@ public class OrderController {
     ) throws Exception {
         // TODO
 //        BoardDto.ResponseDto result = boardService.getBoardDetail(productId);
+        BoardDto.ResponseDto result = null;
+        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+    }
+
+    @PatchMapping(path = PathConstants.ORDERS_ACCEPT, produces = "application/json")
+    @Operation(
+        summary = "주문 완료 처리",
+        description = "주문 상태를 완료로 수정한다."
+    )
+    public ResponseEntity<BoardDto.ResponseDto> patchOrderComplete(
+        @PathVariable("orderId") String orderId
+    ) throws Exception {
+//        BoardDto.ResponseDto result = boardService.postBoard(boardRequestDto);
         BoardDto.ResponseDto result = null;
         return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
     }
