@@ -1,10 +1,8 @@
 package com.freestrokes.controller;
 
-import com.freestrokes.aop.LogExecutionTime;
 import com.freestrokes.constants.PathConstants;
 import com.freestrokes.dto.BoardDto;
-import com.freestrokes.properties.ApplicationProperties;
-import com.freestrokes.service.BoardService;
+import com.freestrokes.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -19,15 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class OrderController {
 
-//  * 주문 리뷰작성: /api/orders/{id}/review -> POST
-//  * 주문 접수처리: /api/orders/{id}/accept -> PATCH
-//  * 주문 배송처리: /api/orders/{id}/shipping -> PATCH
-//  * 주문 완료처리: /api/orders/{id}/complete -> PATCH
-//  * 주문 거절처리: /api/orders/{id}/reject -> PATCH
-//  * 단일 주문조회: /api/orders/{id} -> GET
-//  * 주문 목록조회: /api/orders -> GET
-
-//    private final OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping(path = PathConstants.ORDERS, produces = "application/json")
     @Operation(
@@ -39,74 +29,80 @@ public class OrderController {
 //        @ParameterObject @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable
         @ParameterObject @PageableDefault(size = 10) Pageable pageable
     ) throws Exception {
-        // TODO
-//        Page<BoardDto.ResponseDto> result = boardService.getBoards(pageable);
-        Page<BoardDto.ResponseDto> result = null;
+        Page<BoardDto.ResponseDto> result = orderService.getOrders(pageable);
         return new ResponseEntity<Page<BoardDto.ResponseDto>>(result, HttpStatus.OK);
     }
 
     @GetMapping(path = PathConstants.ORDERS_DETAIL, produces = "application/json")
     @Operation(
         summary = "단일 주문 조회",
-        description = "단일 주문 정보를 조회한다."
+        description = "주문 ID를 이용하여 단일 주문 정보를 조회한다."
     )
     public ResponseEntity<BoardDto.ResponseDto> getOrderDetail(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        // TODO
-//        BoardDto.ResponseDto result = boardService.getBoardDetail(productId);
-        BoardDto.ResponseDto result = null;
+        BoardDto.ResponseDto result = orderService.getOrderDetail(orderId);
         return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
     }
 
     @PatchMapping(path = PathConstants.ORDERS_ACCEPT, produces = "application/json")
     @Operation(
+        summary = "주문 접수 처리",
+        description = "주문 ID를 이용하여 주문을 접수 상태로 수정한다."
+    )
+    public ResponseEntity<BoardDto.ResponseDto> patchOrderAccept(
+        @PathVariable("orderId") String orderId
+    ) throws Exception {
+        BoardDto.ResponseDto result = orderService.patchOrderAccept(orderId);
+        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+    }
+
+    @PatchMapping(path = PathConstants.ORDERS_COMPLETE, produces = "application/json")
+    @Operation(
         summary = "주문 완료 처리",
-        description = "주문 상태를 완료로 수정한다."
+        description = "주문 ID를 이용하여 주문을 완료 상태로 수정한다."
     )
     public ResponseEntity<BoardDto.ResponseDto> patchOrderComplete(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-//        BoardDto.ResponseDto result = boardService.postBoard(boardRequestDto);
-        BoardDto.ResponseDto result = null;
+        BoardDto.ResponseDto result = orderService.patchOrderComplete(orderId);
         return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
     }
 
-//    @PostMapping(path = PathConstants.BOARDS, produces = "application/json")
-//    @Operation(
-//        summary = "게시글 등록",
-//        description = "게시글 정보를 등록한다."
-//    )
-//    public ResponseEntity<BoardDto.ResponseDto> postBoard(
-//        @RequestBody BoardDto.RequestDto boardRequestDto
-//    ) throws Exception {
-//        BoardDto.ResponseDto result = boardService.postBoard(boardRequestDto);
-//        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
-//    }
-//
-//    @PutMapping(path = PathConstants.BOARD, produces = "application/json")
-//    @Operation(
-//        summary = "게시글 수정",
-//        description = "게시글 ID를 이용하여 게시글 정보를 수정한다."
-//    )
-//    public ResponseEntity<BoardDto.ResponseDto> putBoard(
-//        @PathVariable("boardId") String boardId,
-//        @RequestBody BoardDto.RequestDto boardRequestDto
-//    ) throws Exception {
-//        BoardDto.ResponseDto result = boardService.putBoard(boardId, boardRequestDto);
-//        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping(path = PathConstants.BOARD, produces = "application/json")
-//    @Operation(
-//        summary = "게시글 삭제",
-//        description = "게시글 ID를 이용하여 게시글 정보를 삭제한다."
-//    )
-//    public ResponseEntity<?> deleteBoard(
-//        @PathVariable("boardId") String boardId
-//    ) throws Exception {
-//        boardService.deleteBoard(boardId);
-//        return new ResponseEntity<>("{}", HttpStatus.OK);
-//    }
+    @PatchMapping(path = PathConstants.ORDERS_REJECT, produces = "application/json")
+    @Operation(
+        summary = "주문 거절 처리",
+        description = "주문 ID를 이용하여 주문을 거절 상태로 수정한다."
+    )
+    public ResponseEntity<BoardDto.ResponseDto> patchOrderReject(
+        @PathVariable("orderId") String orderId
+    ) throws Exception {
+        BoardDto.ResponseDto result = orderService.patchOrderReject(orderId);
+        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+    }
+
+    @PatchMapping(path = PathConstants.ORDERS_SHIPPING, produces = "application/json")
+    @Operation(
+        summary = "주문 배송 처리",
+        description = "주문 ID를 이용하여 주문을 배송 상태로 수정한다."
+    )
+    public ResponseEntity<BoardDto.ResponseDto> patchOrderShipping(
+        @PathVariable("orderId") String orderId
+    ) throws Exception {
+        BoardDto.ResponseDto result = orderService.patchOrderShipping(orderId);
+        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(path = PathConstants.ORDERS_REVIEW, produces = "application/json")
+    @Operation(
+        summary = "주문 리뷰 작성",
+        description = "주문에 대한 리뷰를 작성한다."
+    )
+    public ResponseEntity<BoardDto.ResponseDto> postOrderReview(
+        @PathVariable("orderId") String orderId
+    ) throws Exception {
+        BoardDto.ResponseDto result = orderService.postOrderReview(orderId);
+        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+    }
 
 }
