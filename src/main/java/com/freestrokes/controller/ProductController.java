@@ -5,6 +5,7 @@ import com.freestrokes.properties.ApplicationProperties;
 import com.freestrokes.constants.PathConstants;
 import com.freestrokes.dto.BoardDto;
 import com.freestrokes.service.BoardService;
+import com.freestrokes.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
@@ -20,8 +21,7 @@ import org.springframework.data.web.PageableDefault;
 @RestController
 public class ProductController {
 
-//    private final BoardService boardService;
-//    private final ProductService productService;
+    private final ProductService productService;
 
     @GetMapping(path = PathConstants.PRODUCTS, produces = "application/json")
     @Operation(
@@ -33,9 +33,7 @@ public class ProductController {
 //        @ParameterObject @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable
         @ParameterObject @PageableDefault(size = 10) Pageable pageable
     ) throws Exception {
-        // TODO
-//        Page<BoardDto.ResponseDto> result = boardService.getBoards(pageable);
-        Page<BoardDto.ResponseDto> result = null;
+        Page<BoardDto.ResponseDto> result = productService.getProducts(pageable);
         return new ResponseEntity<Page<BoardDto.ResponseDto>>(result, HttpStatus.OK);
     }
 
@@ -48,47 +46,8 @@ public class ProductController {
         @PathVariable("productId") String productId
     ) throws Exception {
         // TODO
-//        BoardDto.ResponseDto result = boardService.getBoardDetail(productId);
-        BoardDto.ResponseDto result = null;
+        BoardDto.ResponseDto result = productService.getProductDetail(productId);
         return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
     }
-
-//
-//    @PostMapping(path = PathConstants.BOARDS, produces = "application/json")
-//    @Operation(
-//        summary = "게시글 등록",
-//        description = "게시글 정보를 등록한다."
-//    )
-//    public ResponseEntity<BoardDto.ResponseDto> postBoard(
-//        @RequestBody BoardDto.RequestDto boardRequestDto
-//    ) throws Exception {
-//        BoardDto.ResponseDto result = boardService.postBoard(boardRequestDto);
-//        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
-//    }
-//
-//    @PutMapping(path = PathConstants.BOARD, produces = "application/json")
-//    @Operation(
-//        summary = "게시글 수정",
-//        description = "게시글 ID를 이용하여 게시글 정보를 수정한다."
-//    )
-//    public ResponseEntity<BoardDto.ResponseDto> putBoard(
-//        @PathVariable("boardId") String boardId,
-//        @RequestBody BoardDto.RequestDto boardRequestDto
-//    ) throws Exception {
-//        BoardDto.ResponseDto result = boardService.putBoard(boardId, boardRequestDto);
-//        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping(path = PathConstants.BOARD, produces = "application/json")
-//    @Operation(
-//        summary = "게시글 삭제",
-//        description = "게시글 ID를 이용하여 게시글 정보를 삭제한다."
-//    )
-//    public ResponseEntity<?> deleteBoard(
-//        @PathVariable("boardId") String boardId
-//    ) throws Exception {
-//        boardService.deleteBoard(boardId);
-//        return new ResponseEntity<>("{}", HttpStatus.OK);
-//    }
 
 }
