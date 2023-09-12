@@ -121,9 +121,9 @@ public class ProductService implements ProductRequestService {
     }
 
     /**
-     * 상품 정보를 조회
+     * 단일 상품 정보를 조회
      * @param productId 상품 ID
-     * @return 상품 정보
+     * @return 조회한 상품 정보
      */
     @Override
     @Transactional

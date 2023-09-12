@@ -10,16 +10,16 @@ import org.springframework.data.domain.Pageable;
 public interface ProductRequestService {
 
     /**
-     * 상품 목록을 조회.
+     * 상품 목록을 조회
      * @param pageable 페이징 정보
      * @return 상품 목록
      */
     Page<BoardDto.ResponseDto> getProducts(Pageable pageable);
 
     /**
-     * 상품 정보를 조회.
+     * 단일 상품 정보를 조회
      * @param productId 상품 ID
-     * @return 상품 정보
+     * @return 조회한 상품 정보
      */
     BoardDto.ResponseDto getProductDetail(String productId);
 
