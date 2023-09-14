@@ -85,21 +85,25 @@ public class Product {
 
     public void updateProduct(
         String name,
-        String details
+        String details,
+        Integer reviewCount
     ) {
         this.name = name;
         this.details = details;
+        this.reviewCount = reviewCount;
     }
 
     @Builder(toBuilder = true)
     public Product(
         String productId,
         String name,
-        String details
+        String details,
+        Integer reviewCount
     ) {
         this.productId = productId;
         this.name = name;
         this.details = details;
+        this.reviewCount = reviewCount;
     }
 
 }
