@@ -1,6 +1,6 @@
 package com.freestrokes.service;
 
-import com.freestrokes.dto.BoardDto;
+import com.freestrokes.dto.ProductDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,13 +14,13 @@ public interface ProductRequestService {
      * @param pageable 페이징 정보
      * @return 상품 목록
      */
-    Page<BoardDto.ResponseDto> getProducts(Pageable pageable);
+    Page<ProductDto.ResponseDto> getProducts(Pageable pageable);
 
     /**
      * 단일 상품 정보를 조회
      * @param productId 상품 ID
      * @return 조회한 상품 정보
      */
-    BoardDto.ResponseDto getProductDetail(String productId);
+    ProductDto.ResponseDto getProductDetail(String productId);
 
 }
