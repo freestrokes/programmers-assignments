@@ -41,7 +41,6 @@ public class ProductController {
     public ResponseEntity<ProductDto.ResponseDto> getProductDetail(
         @PathVariable("productId") String productId
     ) throws Exception {
-        // TODO
         ProductDto.ResponseDto result = productService.getProductDetail(productId);
         return new ResponseEntity<ProductDto.ResponseDto>(result, HttpStatus.OK);
     }
