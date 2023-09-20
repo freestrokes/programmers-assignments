@@ -1,12 +1,12 @@
 package com.freestrokes.dto;
 
-import com.freestrokes.domain.Board;
-import com.freestrokes.domain.BoardComment;
+import com.freestrokes.auth.domain.User;
+import com.freestrokes.domain.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -14,56 +14,68 @@ public class OrderDto {
 
     @Getter
     public static class RequestDto {
-        private String title;
-        private String content;
-        private String author;
+        String requestMsg;
+        String rejectMsg;
+        LocalDateTime completedAt;
+        LocalDateTime rejectedAt;
 
         @Builder(toBuilder = true)
         public RequestDto(
-            String title,
-            String content,
-            String author
+            String requestMsg,
+            String rejectMsg,
+            LocalDateTime completedAt,
+            LocalDateTime rejectedAt
         ) {
-            this.title = title;
-            this.content = content;
-            this.author = author;
+            this.requestMsg = requestMsg;
+            this.rejectMsg = rejectMsg;
+            this.completedAt = completedAt;
+            this.rejectedAt = rejectedAt;
         }
 
-        public Board toEntity() {
-            return Board.builder()
-                .title(title)
-                .content(content)
-                .author(author)
+        public Order toEntity() {
+            return Order.builder()
+                .requestMsg(requestMsg)
+                .rejectMsg(rejectMsg)
+                .completedAt(completedAt)
+                .rejectedAt(rejectedAt)
                 .build();
         }
     }
 
     @Getter
     public static class ResponseDto {
-        private String boardId;
-        private String title;
-        private String content;
-        private String author;
+        String orderId;
+        User user;
+        Product product;
+        Review review;
+        String requestMsg;
+        String rejectMsg;
+        LocalDateTime completedAt;
+        LocalDateTime rejectedAt;
 
         // TODO: @JsonIgnore
         // 양방향 연관관계 매핑을 한 경우 순환 참조가 발생할 수 있음
-        // @JsonIgnore 어노테이션을 추가하여 해결.
-//        @JsonIgnore
-        private List<BoardComment> boardComments;
+        // 프로퍼티에 @JsonIgnore 어노테이션을 추가하여 해결.
 
         @Builder(toBuilder = true)
         public ResponseDto(
-            String boardId,
-            String title,
-            String content,
-            String author,
-            List<BoardComment> boardComments
+            String orderId,
+            User user,
+            Product product,
+            Review review,
+            String requestMsg,
+            String rejectMsg,
+            LocalDateTime completedAt,
+            LocalDateTime rejectedAt
         ) {
-            this.boardId = boardId;
-            this.title = title;
-            this.content = content;
-            this.author = author;
-            this.boardComments = boardComments;
+            this.orderId = orderId;
+            this.user = user;
+            this.product = product;
+            this.review = review;
+            this.requestMsg = requestMsg;
+            this.rejectMsg = rejectMsg;
+            this.completedAt = completedAt;
+            this.rejectedAt = rejectedAt;
         }
     }
 
