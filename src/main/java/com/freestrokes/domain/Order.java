@@ -38,18 +38,18 @@ public class Order {
     private Review review;
 
     @Column(name = "request_msg", length = 1000)
-    private String request_msg;
+    private String requestMsg;
 
     @Column(name = "reject_msg", length = 1000)
-    private String reject_msg;
+    private String rejectMsg;
 
     @Column(name = "completed_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime completed_at = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
+    private LocalDateTime completedAt = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 
     @Column(name = "rejected_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime rejected_at = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
+    private LocalDateTime rejectedAt = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 
     @CreatedDate
     @CreationTimestamp
@@ -58,15 +58,15 @@ public class Order {
     private LocalDateTime createAt = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
 
     public void updateOrder(
-        String request_msg,
-        String reject_msg,
-        LocalDateTime completed_at,
-        LocalDateTime rejected_at
+        String requestMsg,
+        String rejectMsg,
+        LocalDateTime completedAt,
+        LocalDateTime rejectedAt
     ) {
-        this.request_msg = request_msg;
-        this.reject_msg = reject_msg;
-        this.completed_at = completed_at;
-        this.rejected_at = rejected_at;
+        this.requestMsg = requestMsg;
+        this.rejectMsg = rejectMsg;
+        this.completedAt = completedAt;
+        this.rejectedAt = rejectedAt;
     }
 
     @Builder(toBuilder = true)
@@ -75,19 +75,19 @@ public class Order {
         User user,
         Product product,
         Review review,
-        String request_msg,
-        String reject_msg,
-        LocalDateTime completed_at,
-        LocalDateTime rejected_at
+        String requestMsg,
+        String rejectMsg,
+        LocalDateTime completedAt,
+        LocalDateTime rejectedAt
     ) {
         this.orderId = orderId;
         this.user = user;
         this.product = product;
         this.review = review;
-        this.request_msg = request_msg;
-        this.reject_msg = reject_msg;
-        this.completed_at = completed_at;
-        this.rejected_at = rejected_at;
+        this.requestMsg = requestMsg;
+        this.rejectMsg = rejectMsg;
+        this.completedAt = completedAt;
+        this.rejectedAt = rejectedAt;
     }
 
 }
