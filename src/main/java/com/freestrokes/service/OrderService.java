@@ -1,9 +1,12 @@
 package com.freestrokes.service;
 
-import com.freestrokes.domain.Board;
+import com.freestrokes.auth.domain.User;
+import com.freestrokes.domain.Order;
 import com.freestrokes.domain.BoardComment;
-import com.freestrokes.dto.BoardDto;
-import com.freestrokes.repository.BoardRepository;
+import com.freestrokes.domain.Product;
+import com.freestrokes.domain.Review;
+import com.freestrokes.dto.OrderDto;
+import com.freestrokes.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -11,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,8 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService implements OrderRequestService {
 
-//    private final OrderRepository orderRepository;
-    private final BoardRepository boardRepository;
+    private final OrderRepository orderRepository;
 
     /**
      * 주문 목록을 조회
@@ -30,45 +33,70 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<BoardDto.ResponseDto> getOrders(Pageable pageable) {
+    public Page<OrderDto.ResponseDto> getOrders(Pageable pageable) {
 
-        Page<Board> findBoards = boardRepository.findAll(pageable);
-        List<BoardDto.ResponseDto> boardsResponseDto = new ArrayList<>();
+        Page<Order> findOrders = orderRepository.findAll(pageable);
+        List<OrderDto.ResponseDto> ordersResponseDto = new ArrayList<>();
 
-        // 조회한 게시글 목록에 대한 DTO 변환
-        findBoards.getContent().forEach(board -> {
-            boardsResponseDto.add(
-                BoardDto.ResponseDto.builder()
-                    .boardId(board.getBoardId())
-                    .title(board.getTitle())
-                    .content(board.getContent())
-                    .author(board.getAuthor())
-                    .boardComments(
-                        board.getBoardComments().stream().map(boardComment -> {
-                            return BoardComment.builder()
-                                .boardCommentId(boardComment.getBoardCommentId())
-                                .board(board)
-                                .content(boardComment.getContent())
-                                .author(boardComment.getAuthor())
-                                .build();
-                        }).collect(Collectors.toList())
+//        String orderId;
+//        User user;
+//        Product product;
+//        Review review;
+//        String requestMsg;
+//        String rejectMsg;
+//        LocalDateTime completedAt;
+//        LocalDateTime rejectedAt;
+
+        // 조회한 주문 목록에 대한 DTO 변환
+        findOrders.getContent().forEach(order -> {
+            ordersResponseDto.add(
+                OrderDto.ResponseDto.builder()
+                    .orderId(order.getOrderId())
+//                    .user(order.getUser())
+//                    .product(order.getProduct())
+//                    .review(order.getReview())
+                    .user(
+                        User.builder()
+                            .userId(order.getUser().getUserId())
+                            .name(order.getUser().getName())
+                            .email(order.getUser().getEmail())
+                            .role(order.getUser().getRole())
+                            .build()
                     )
+                    .product(
+                        Product.builder()
+                            .productId(order.getProduct().getProductId())
+                            .name(order.getProduct().getName())
+                            .details(order.getProduct().getDetails())
+                            .reviewCount(order.getProduct().getReviewCount())
+                            .build()
+                    )
+                    .review(
+                        Review.builder()
+                            .reviewId(order.getReview().getReviewId())
+                            .content(order.getReview().getContent())
+                            .build()
+                    )
+                    .requestMsg(order.getRequestMsg())
+                    .rejectMsg(order.getRejectMsg())
+                    .completedAt(order.getCompletedAt())
+                    .rejectedAt(order.getRejectedAt())
                     .build()
             );
         });
 
         // TODO: CASE1) 1:N 양방향 매핑 조회 후 DTO 변환 (stream 이용한 방법)
         // 게시글 조회
-//        List<BoardDto.ResponseDto> boardsResponseDto = boardRepository.findAll(pageable)
+//        List<OrderDto.ResponseDto> ordersResponseDto = orderRepository.findAll(pageable)
 //            .stream()
 //            .map(board -> {
-//                return BoardDto.ResponseDto.builder()
-//                    .boardId(board.getBoardId())
-//                    .title(board.getTitle())
-//                    .content(board.getContent())
-//                    .author(board.getAuthor())
+//                return OrderDto.ResponseDto.builder()
+//                    .boardId(order.getBoardId())
+//                    .title(order.getTitle())
+//                    .content(order.getContent())
+//                    .author(order.getAuthor())
 //                    .boardComments(
-//                        board.getBoardComments().stream().map(boardComment -> {
+//                        order.getBoardComments().stream().map(boardComment -> {
 //                            return BoardComment.builder()
 //                                .boardCommentId(boardComment.getBoardCommentId())
 //                                .board(board)
@@ -82,15 +110,15 @@ public class OrderService implements OrderRequestService {
 //            .collect(Collectors.toList());
 
         //TODO: CASE2) 1:N 양방향 매핑 조회 후 DTO 변환 (for문 이용한 방법)
-//        List<Board> boardList = boardRepository.findAll();
-//        List<BoardDto.ResponseDto> boardsResponseDto = new ArrayList<>();
+//        List<Board> boardList = orderRepository.findAll();
+//        List<OrderDto.ResponseDto> ordersResponseDto = new ArrayList<>();
 //
 //        for (Board board : boardList) {
 //            List<BoardComment> boardComments = new ArrayList<>();
 //
 //            // Board Comment DTO
-//            if (board.getBoardComments().size() > 0) {
-//                board.getBoardComments().stream().forEach(boardComment -> {
+//            if (order.getBoardComments().size() > 0) {
+//                order.getBoardComments().stream().forEach(boardComment -> {
 //                    boardComments.add(
 //                        BoardComment.builder()
 //                            .boardCommentId(boardComment.getBoardCommentId())
@@ -102,21 +130,21 @@ public class OrderService implements OrderRequestService {
 //                });
 //            }
 //
-//            // Board DTO
-//            boardsResponseDto.add(
-//                BoardDto.ResponseDto.builder()
-//                    .boardId(board.getBoardId())
-//                    .title(board.getTitle())
-//                    .content(board.getContent())
-//                    .author(board.getAuthor())
+//            // Order DTO
+//            ordersResponseDto.add(
+//                OrderDto.ResponseDto.builder()
+//                    .boardId(order.getBoardId())
+//                    .title(order.getTitle())
+//                    .content(order.getContent())
+//                    .author(order.getAuthor())
 //                    .boardComments(boardComments)
 //                    .build()
 //            );
 //        }
 //
-//        return boardsResponseDto;
+//        return ordersResponseDto;
 
-        return new PageImpl<>(boardsResponseDto, pageable, findBoards.getTotalElements());
+        return new PageImpl<>(ordersResponseDto, pageable, findOrders.getTotalElements());
 
     }
 
@@ -127,16 +155,42 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional
-    public BoardDto.ResponseDto getOrderDetail(String orderId) {
+    public OrderDto.ResponseDto getOrderDetail(String orderId) {
 
         // 주문 정보 조회
-        Board findBoard = boardRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
-        return BoardDto.ResponseDto.builder()
-            .boardId(findBoard.getBoardId())
-            .title(findBoard.getTitle())
-            .content(findBoard.getContent())
-            .author(findBoard.getAuthor())
+        return OrderDto.ResponseDto.builder()
+            .orderId(findOrder.getOrderId())
+//            .user(findOrder.getUser())
+//            .product(findOrder.getProduct())
+//            .review(findOrder.getReview())
+            .user(
+                User.builder()
+                    .userId(findOrder.getUser().getUserId())
+                    .name(findOrder.getUser().getName())
+                    .email(findOrder.getUser().getEmail())
+                    .role(findOrder.getUser().getRole())
+                    .build()
+            )
+            .product(
+                Product.builder()
+                    .productId(findOrder.getProduct().getProductId())
+                    .name(findOrder.getProduct().getName())
+                    .details(findOrder.getProduct().getDetails())
+                    .reviewCount(findOrder.getProduct().getReviewCount())
+                    .build()
+            )
+            .review(
+                Review.builder()
+                    .reviewId(findOrder.getReview().getReviewId())
+                    .content(findOrder.getReview().getContent())
+                    .build()
+            )
+            .requestMsg(findOrder.getRequestMsg())
+            .rejectMsg(findOrder.getRejectMsg())
+            .completedAt(findOrder.getCompletedAt())
+            .rejectedAt(findOrder.getRejectedAt())
             .build();
 
     }
@@ -148,10 +202,10 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional
-    public BoardDto.ResponseDto patchOrderAccept(String orderId) {
+    public OrderDto.ResponseDto patchOrderAccept(String orderId) {
 
         // 주문 조회
-        Board findBoard = boardRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
         // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
@@ -171,13 +225,39 @@ public class OrderService implements OrderRequestService {
 //
 //        findBoard.updateBoard(board);
 //
-//        boardRepository.save(findBoard);
+//        orderRepository.save(findBoard);
 
-        return BoardDto.ResponseDto.builder()
-            .boardId(findBoard.getBoardId())
-            .title(findBoard.getTitle())
-            .content(findBoard.getContent())
-            .author(findBoard.getAuthor())
+        return OrderDto.ResponseDto.builder()
+            .orderId(findOrder.getOrderId())
+//            .user(findOrder.getUser())
+//            .product(findOrder.getProduct())
+//            .review(findOrder.getReview())
+            .user(
+                User.builder()
+                    .userId(findOrder.getUser().getUserId())
+                    .name(findOrder.getUser().getName())
+                    .email(findOrder.getUser().getEmail())
+                    .role(findOrder.getUser().getRole())
+                    .build()
+            )
+            .product(
+                Product.builder()
+                    .productId(findOrder.getProduct().getProductId())
+                    .name(findOrder.getProduct().getName())
+                    .details(findOrder.getProduct().getDetails())
+                    .reviewCount(findOrder.getProduct().getReviewCount())
+                    .build()
+            )
+            .review(
+                Review.builder()
+                    .reviewId(findOrder.getReview().getReviewId())
+                    .content(findOrder.getReview().getContent())
+                    .build()
+            )
+            .requestMsg(findOrder.getRequestMsg())
+            .rejectMsg(findOrder.getRejectMsg())
+            .completedAt(findOrder.getCompletedAt())
+            .rejectedAt(findOrder.getRejectedAt())
             .build();
 
     }
@@ -189,10 +269,10 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional
-    public BoardDto.ResponseDto patchOrderComplete(String orderId) {
+    public OrderDto.ResponseDto patchOrderComplete(String orderId) {
 
         // 주문 조회
-        Board findBoard = boardRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
         // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
@@ -212,13 +292,39 @@ public class OrderService implements OrderRequestService {
 //
 //        findBoard.updateBoard(board);
 //
-//        boardRepository.save(findBoard);
+//        orderRepository.save(findBoard);
 
-        return BoardDto.ResponseDto.builder()
-            .boardId(findBoard.getBoardId())
-            .title(findBoard.getTitle())
-            .content(findBoard.getContent())
-            .author(findBoard.getAuthor())
+        return OrderDto.ResponseDto.builder()
+            .orderId(findOrder.getOrderId())
+//            .user(findOrder.getUser())
+//            .product(findOrder.getProduct())
+//            .review(findOrder.getReview())
+            .user(
+                User.builder()
+                    .userId(findOrder.getUser().getUserId())
+                    .name(findOrder.getUser().getName())
+                    .email(findOrder.getUser().getEmail())
+                    .role(findOrder.getUser().getRole())
+                    .build()
+            )
+            .product(
+                Product.builder()
+                    .productId(findOrder.getProduct().getProductId())
+                    .name(findOrder.getProduct().getName())
+                    .details(findOrder.getProduct().getDetails())
+                    .reviewCount(findOrder.getProduct().getReviewCount())
+                    .build()
+            )
+            .review(
+                Review.builder()
+                    .reviewId(findOrder.getReview().getReviewId())
+                    .content(findOrder.getReview().getContent())
+                    .build()
+            )
+            .requestMsg(findOrder.getRequestMsg())
+            .rejectMsg(findOrder.getRejectMsg())
+            .completedAt(findOrder.getCompletedAt())
+            .rejectedAt(findOrder.getRejectedAt())
             .build();
 
     }
@@ -230,10 +336,10 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional
-    public BoardDto.ResponseDto patchOrderReject(String orderId) {
+    public OrderDto.ResponseDto patchOrderReject(String orderId) {
 
         // 주문 조회
-        Board findBoard = boardRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
         // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
@@ -253,13 +359,39 @@ public class OrderService implements OrderRequestService {
 //
 //        findBoard.updateBoard(board);
 //
-//        boardRepository.save(findBoard);
+//        orderRepository.save(findBoard);
 
-        return BoardDto.ResponseDto.builder()
-            .boardId(findBoard.getBoardId())
-            .title(findBoard.getTitle())
-            .content(findBoard.getContent())
-            .author(findBoard.getAuthor())
+        return OrderDto.ResponseDto.builder()
+            .orderId(findOrder.getOrderId())
+//            .user(findOrder.getUser())
+//            .product(findOrder.getProduct())
+//            .review(findOrder.getReview())
+            .user(
+                User.builder()
+                    .userId(findOrder.getUser().getUserId())
+                    .name(findOrder.getUser().getName())
+                    .email(findOrder.getUser().getEmail())
+                    .role(findOrder.getUser().getRole())
+                    .build()
+            )
+            .product(
+                Product.builder()
+                    .productId(findOrder.getProduct().getProductId())
+                    .name(findOrder.getProduct().getName())
+                    .details(findOrder.getProduct().getDetails())
+                    .reviewCount(findOrder.getProduct().getReviewCount())
+                    .build()
+            )
+            .review(
+                Review.builder()
+                    .reviewId(findOrder.getReview().getReviewId())
+                    .content(findOrder.getReview().getContent())
+                    .build()
+            )
+            .requestMsg(findOrder.getRequestMsg())
+            .rejectMsg(findOrder.getRejectMsg())
+            .completedAt(findOrder.getCompletedAt())
+            .rejectedAt(findOrder.getRejectedAt())
             .build();
 
     }
@@ -271,10 +403,10 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional
-    public BoardDto.ResponseDto patchOrderShipping(String orderId) {
+    public OrderDto.ResponseDto patchOrderShipping(String orderId) {
 
         // 주문 조회
-        Board findBoard = boardRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
         // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
@@ -294,13 +426,39 @@ public class OrderService implements OrderRequestService {
 //
 //        findBoard.updateBoard(board);
 //
-//        boardRepository.save(findBoard);
+//        orderRepository.save(findBoard);
 
-        return BoardDto.ResponseDto.builder()
-            .boardId(findBoard.getBoardId())
-            .title(findBoard.getTitle())
-            .content(findBoard.getContent())
-            .author(findBoard.getAuthor())
+        return OrderDto.ResponseDto.builder()
+            .orderId(findOrder.getOrderId())
+//            .user(findOrder.getUser())
+//            .product(findOrder.getProduct())
+//            .review(findOrder.getReview())
+            .user(
+                User.builder()
+                    .userId(findOrder.getUser().getUserId())
+                    .name(findOrder.getUser().getName())
+                    .email(findOrder.getUser().getEmail())
+                    .role(findOrder.getUser().getRole())
+                    .build()
+            )
+            .product(
+                Product.builder()
+                    .productId(findOrder.getProduct().getProductId())
+                    .name(findOrder.getProduct().getName())
+                    .details(findOrder.getProduct().getDetails())
+                    .reviewCount(findOrder.getProduct().getReviewCount())
+                    .build()
+            )
+            .review(
+                Review.builder()
+                    .reviewId(findOrder.getReview().getReviewId())
+                    .content(findOrder.getReview().getContent())
+                    .build()
+            )
+            .requestMsg(findOrder.getRequestMsg())
+            .rejectMsg(findOrder.getRejectMsg())
+            .completedAt(findOrder.getCompletedAt())
+            .rejectedAt(findOrder.getRejectedAt())
             .build();
 
     }
@@ -312,10 +470,10 @@ public class OrderService implements OrderRequestService {
      */
     @Override
     @Transactional
-    public BoardDto.ResponseDto postOrderReview(String orderId) {
+    public OrderDto.ResponseDto postOrderReview(String orderId) {
 
         // 주문 조회
-        Board findBoard = boardRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
         // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
@@ -335,13 +493,39 @@ public class OrderService implements OrderRequestService {
 //
 //        findBoard.updateBoard(board);
 //
-//        boardRepository.save(findBoard);
+//        orderRepository.save(findBoard);
 
-        return BoardDto.ResponseDto.builder()
-            .boardId(findBoard.getBoardId())
-            .title(findBoard.getTitle())
-            .content(findBoard.getContent())
-            .author(findBoard.getAuthor())
+        return OrderDto.ResponseDto.builder()
+            .orderId(findOrder.getOrderId())
+//            .user(findOrder.getUser())
+//            .product(findOrder.getProduct())
+//            .review(findOrder.getReview())
+            .user(
+                User.builder()
+                    .userId(findOrder.getUser().getUserId())
+                    .name(findOrder.getUser().getName())
+                    .email(findOrder.getUser().getEmail())
+                    .role(findOrder.getUser().getRole())
+                    .build()
+            )
+            .product(
+                Product.builder()
+                    .productId(findOrder.getProduct().getProductId())
+                    .name(findOrder.getProduct().getName())
+                    .details(findOrder.getProduct().getDetails())
+                    .reviewCount(findOrder.getProduct().getReviewCount())
+                    .build()
+            )
+            .review(
+                Review.builder()
+                    .reviewId(findOrder.getReview().getReviewId())
+                    .content(findOrder.getReview().getContent())
+                    .build()
+            )
+            .requestMsg(findOrder.getRequestMsg())
+            .rejectMsg(findOrder.getRejectMsg())
+            .completedAt(findOrder.getCompletedAt())
+            .rejectedAt(findOrder.getRejectedAt())
             .build();
 
     }
