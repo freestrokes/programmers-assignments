@@ -1,7 +1,7 @@
 package com.freestrokes.controller;
 
 import com.freestrokes.constants.PathConstants;
-import com.freestrokes.dto.BoardDto;
+import com.freestrokes.dto.OrderDto;
 import com.freestrokes.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +24,13 @@ public class OrderController {
         summary = "주문 목록 조회",
         description = "주문 목록을 조회한다."
     )
-    public ResponseEntity<Page<BoardDto.ResponseDto>> getOrders(
+    public ResponseEntity<Page<OrderDto.ResponseDto>> getOrders(
         // TODO: size, sort, direction 프로퍼티를 설정한 @PageableDefault 예시
 //        @ParameterObject @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable
         @ParameterObject @PageableDefault(size = 10) Pageable pageable
     ) throws Exception {
-        Page<BoardDto.ResponseDto> result = orderService.getOrders(pageable);
-        return new ResponseEntity<Page<BoardDto.ResponseDto>>(result, HttpStatus.OK);
+        Page<OrderDto.ResponseDto> result = orderService.getOrders(pageable);
+        return new ResponseEntity<Page<OrderDto.ResponseDto>>(result, HttpStatus.OK);
     }
 
     @GetMapping(path = PathConstants.ORDERS_DETAIL, produces = "application/json")
@@ -38,11 +38,11 @@ public class OrderController {
         summary = "단일 주문 조회",
         description = "주문 ID를 이용하여 단일 주문 정보를 조회한다."
     )
-    public ResponseEntity<BoardDto.ResponseDto> getOrderDetail(
+    public ResponseEntity<OrderDto.ResponseDto> getOrderDetail(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        BoardDto.ResponseDto result = orderService.getOrderDetail(orderId);
-        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+        OrderDto.ResponseDto result = orderService.getOrderDetail(orderId);
+        return new ResponseEntity<OrderDto.ResponseDto>(result, HttpStatus.OK);
     }
 
     @PatchMapping(path = PathConstants.ORDERS_ACCEPT, produces = "application/json")
@@ -50,11 +50,11 @@ public class OrderController {
         summary = "주문 접수 처리",
         description = "주문 ID를 이용하여 주문을 접수 상태로 수정한다."
     )
-    public ResponseEntity<BoardDto.ResponseDto> patchOrderAccept(
+    public ResponseEntity<OrderDto.ResponseDto> patchOrderAccept(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        BoardDto.ResponseDto result = orderService.patchOrderAccept(orderId);
-        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+        OrderDto.ResponseDto result = orderService.patchOrderAccept(orderId);
+        return new ResponseEntity<OrderDto.ResponseDto>(result, HttpStatus.OK);
     }
 
     @PatchMapping(path = PathConstants.ORDERS_COMPLETE, produces = "application/json")
@@ -62,11 +62,11 @@ public class OrderController {
         summary = "주문 완료 처리",
         description = "주문 ID를 이용하여 주문을 완료 상태로 수정한다."
     )
-    public ResponseEntity<BoardDto.ResponseDto> patchOrderComplete(
+    public ResponseEntity<OrderDto.ResponseDto> patchOrderComplete(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        BoardDto.ResponseDto result = orderService.patchOrderComplete(orderId);
-        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+        OrderDto.ResponseDto result = orderService.patchOrderComplete(orderId);
+        return new ResponseEntity<OrderDto.ResponseDto>(result, HttpStatus.OK);
     }
 
     @PatchMapping(path = PathConstants.ORDERS_REJECT, produces = "application/json")
@@ -74,11 +74,11 @@ public class OrderController {
         summary = "주문 거절 처리",
         description = "주문 ID를 이용하여 주문을 거절 상태로 수정한다."
     )
-    public ResponseEntity<BoardDto.ResponseDto> patchOrderReject(
+    public ResponseEntity<OrderDto.ResponseDto> patchOrderReject(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        BoardDto.ResponseDto result = orderService.patchOrderReject(orderId);
-        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+        OrderDto.ResponseDto result = orderService.patchOrderReject(orderId);
+        return new ResponseEntity<OrderDto.ResponseDto>(result, HttpStatus.OK);
     }
 
     @PatchMapping(path = PathConstants.ORDERS_SHIPPING, produces = "application/json")
@@ -86,11 +86,11 @@ public class OrderController {
         summary = "주문 배송 처리",
         description = "주문 ID를 이용하여 주문을 배송 상태로 수정한다."
     )
-    public ResponseEntity<BoardDto.ResponseDto> patchOrderShipping(
+    public ResponseEntity<OrderDto.ResponseDto> patchOrderShipping(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        BoardDto.ResponseDto result = orderService.patchOrderShipping(orderId);
-        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+        OrderDto.ResponseDto result = orderService.patchOrderShipping(orderId);
+        return new ResponseEntity<OrderDto.ResponseDto>(result, HttpStatus.OK);
     }
 
     @PostMapping(path = PathConstants.ORDERS_REVIEW, produces = "application/json")
@@ -98,11 +98,11 @@ public class OrderController {
         summary = "주문 리뷰 작성",
         description = "주문에 대한 리뷰를 작성한다."
     )
-    public ResponseEntity<BoardDto.ResponseDto> postOrderReview(
+    public ResponseEntity<OrderDto.ResponseDto> postOrderReview(
         @PathVariable("orderId") String orderId
     ) throws Exception {
-        BoardDto.ResponseDto result = orderService.postOrderReview(orderId);
-        return new ResponseEntity<BoardDto.ResponseDto>(result, HttpStatus.OK);
+        OrderDto.ResponseDto result = orderService.postOrderReview(orderId);
+        return new ResponseEntity<OrderDto.ResponseDto>(result, HttpStatus.OK);
     }
 
 }
