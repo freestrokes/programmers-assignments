@@ -14,7 +14,7 @@ public class LogAspect {
 
     Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    // TODO: @Around 어노테이션
+    // NOTE: @Around 어노테이션
     // ProceedingJoinPoint를 파라미터로 받을 수 있는데 이건 해당 어노테이션이 붙은 메서드를 받아오도록 동작.
     // @Around("execution(* com.freestrokes..*(..))") 이와 같이 execution을 사용하면 해당 패키지 하위 모든 클래스에 적용
 

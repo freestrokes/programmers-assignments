@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// TODO: @EnableWebSecurity
+// NOTE: @EnableWebSecurity
 // Spring Security 설정 활성화 어노테이션
 
 @RequiredArgsConstructor
@@ -30,10 +30,10 @@ public class SecurityConfiguration {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
-    // TODO: WebSecurityCustomizer
+    // NOTE: WebSecurityCustomizer
     // WebSecurity 설정
 
-    // TODO: SecurityFilterChain
+    // NOTE: SecurityFilterChain
     // HttpSecurity 설정
     // 기존의 WebSecurityConfigurerAdapter 클래스가 Deprecated 되었기 때문에
     // SecurityFilterChain을 Bean으로 등록하여 사용.

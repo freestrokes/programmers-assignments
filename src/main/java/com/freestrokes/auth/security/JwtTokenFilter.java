@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// TODO: JwtTokenFilter
+// NOTE: JwtTokenFilter
 // 로그인시 request에 담긴 토큰의 유효성을 확인하는 필터
 
 @RequiredArgsConstructor

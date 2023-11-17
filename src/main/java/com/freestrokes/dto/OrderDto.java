@@ -53,7 +53,7 @@ public class OrderDto {
         LocalDateTime completedAt;
         LocalDateTime rejectedAt;
 
-        // TODO: @JsonIgnore
+        // NOTE: @JsonIgnore
         // 양방향 연관관계 매핑을 한 경우 순환 참조가 발생할 수 있음
         // 프로퍼티에 @JsonIgnore 어노테이션을 추가하여 해결.
 

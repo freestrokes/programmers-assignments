@@ -25,7 +25,7 @@ public class OrderController {
         description = "주문 목록을 조회한다."
     )
     public ResponseEntity<Page<OrderDto.ResponseDto>> getOrders(
-        // TODO: size, sort, direction 프로퍼티를 설정한 @PageableDefault 예시
+        // NOTE: size, sort, direction 프로퍼티를 설정한 @PageableDefault 예시
 //        @ParameterObject @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable
         @ParameterObject @PageableDefault(size = 10) Pageable pageable
     ) throws Exception {

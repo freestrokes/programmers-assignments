@@ -67,7 +67,7 @@ public class JwtTokenProvider {
             .setIssuedAt(now)
             .setExpiration(accessTokenExpiration)
             .signWith(secretKey, SignatureAlgorithm.HS256)
-            // TODO: Deprecated
+            // NOTE: Deprecated
 //            .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(securityProperties.getToken().getSecretKey().getBytes()))
             .compact();
 
@@ -109,7 +109,7 @@ public class JwtTokenProvider {
             .orElse(null);
 
         if (accessToken == null || findCookie == null) {
-            // TODO: exception 추가
+            // NOTE: exception 추가
         }
 
 //        Cookie[] cookies = request.getCookies();
@@ -178,7 +178,7 @@ public class JwtTokenProvider {
      * @return
      */
     public String getUsername(String token) {
-        // TODO: Jwts.parser() Deprecated
+        // NOTE: Jwts.parser() Deprecated
 //        Jwts.parser()
 //            .setSigningKey(securityProperties.getToken().getSecretKey().getBytes())
 //            .parseClaimsJws(token).getBody().getSubject()

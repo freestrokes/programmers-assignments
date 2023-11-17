@@ -62,7 +62,7 @@ public class BoardCommentService implements BoardCommentRequestService {
         // 게시글 댓글 조회
         BoardComment findBoardComment = boardCommentRepository.findById(boardCommentId).orElseThrow(NoSuchElementException::new);
 
-        // TODO: CASE2) repository 메서드에 @EntityGraph 사용하여 연관 객체 조회
+        // NOTE: CASE2) repository 메서드에 @EntityGraph 사용하여 연관 객체 조회
 //        BoardComment findBoardComment = boardCommentRepository.findByBoardCommentId(boardCommentId).orElseThrow(NoSuchElementException::new);
 
         // 게시글 댓글 저장
@@ -71,7 +71,7 @@ public class BoardCommentService implements BoardCommentRequestService {
             boardCommentRequestDto.getAuthor()
         );
 
-        // TODO: could not initialize proxy - no session
+        // NOTE: could not initialize proxy - no session
         // 연관관계의 FetchType LAZY로 설정된 객체는 조회시 바로 초기화되지 않고 proxy 객체로 처리 됨.
         // 이 상태에서 proxy 객체를 타입 캐스팅하려는 경우 could not initialize proxy - no session 에러가 발생하게 됨.
         // FetchType EAGER로 설정하면 해결되지만 N+1 문제가 발생할 수 있기 때문에 권장되지 않음.
@@ -80,7 +80,7 @@ public class BoardCommentService implements BoardCommentRequestService {
 
         return BoardCommentDto.ResponseDto.builder()
             .boardCommentId(findBoardComment.getBoardCommentId())
-            // TODO: CASE1) proxy 객체의 값을 꺼내서 DTO에 담아 반환
+            // NOTE: CASE1) proxy 객체의 값을 꺼내서 DTO에 담아 반환
             .board(
                 Board.builder()
                     .boardId(findBoardComment.getBoard().getBoardId())
@@ -89,7 +89,7 @@ public class BoardCommentService implements BoardCommentRequestService {
                     .author(findBoardComment.getBoard().getAuthor())
                     .build()
             )
-            // TODO: CASE2) repository 메서드에 @EntityGraph 사용하여 연관 객체 조회
+            // NOTE: CASE2) repository 메서드에 @EntityGraph 사용하여 연관 객체 조회
 //            .board(findBoardComment.getBoard())
             .content(findBoardComment.getContent())
             .author(findBoardComment.getAuthor())

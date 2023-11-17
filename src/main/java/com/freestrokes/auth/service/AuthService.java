@@ -64,7 +64,7 @@ public class AuthService implements AuthRequestService {
         bodyObj.put("accessTokenExpiration", authToken.getAccessTokenExpiration());
         bodyObj.put("refreshTokenExpiration", authToken.getRefreshTokenExpiration());
 
-        // TODO: cookie 생성 확인
+        // NOTE: cookie 생성 확인
         // swagger-ui에서 /api/v1/auth/login api 테스트 후 확인 가능
 
         // Refresh Token 쿠키 생성
@@ -80,7 +80,7 @@ public class AuthService implements AuthRequestService {
         return new ResponseEntity<>(bodyObj, HttpStatus.OK);
     }
 
-    // TODO: logout
+    // NOTE: logout
 //    public void logout() throws Exception {
 //    }
 

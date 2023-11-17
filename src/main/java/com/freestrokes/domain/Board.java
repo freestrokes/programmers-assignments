@@ -14,7 +14,7 @@ import java.util.List;
 @Entity(name = "board")
 public class Board {
 
-    // TODO: id 필드에 sequence 적용하려는 경우엔 아래와 같이 사용.
+    // NOTE: id 필드에 sequence 적용하려는 경우엔 아래와 같이 사용.
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "board_id", unique = true, nullable = false)
@@ -26,7 +26,7 @@ public class Board {
     @Column(name = "board_id", length = 100, unique = true, nullable = false)
     private String boardId;
 
-    // TODO: 양방향 연관 관계를 설정한 경우
+    // NOTE: 양방향 연관 관계를 설정한 경우
     // 컨트롤러에서 JSON으로 값을 출력하는 경우 타입을 변환해야 하는데
     // 변환되는 엔티티의 필드가 다른 엔티티를 참조하고 또 그 엔티티의 필드가 또 다른 엔티티를 참조하는 동작이 반복
     // Infinite Recursion 발생
@@ -35,12 +35,12 @@ public class Board {
     // 사전에 이러한 문제를 방지하고자 양방향 연관 관계를 지양하고 단방향 연관 관계를 사용.
     // 단방향 매핑만으로 테이블과 연관 관계 매핑 설정이 가능.
 
-    // TODO: 연관관계의 주인
+    // NOTE: 연관관계의 주인
     // 1:N(일대다) 관계에서 외래키는 항상 N 쪽에 있음.
     // 이러한 경우에 연관관계의 주인은 N 쪽의 테이블.
     // 키의 주인이 아닌 관계의 주인인 것에 유의.
 
-    // TODO: 일대다 단방향 매핑의 단점
+    // NOTE: 일대다 단방향 매핑의 단점
     // 일대다에서 '다'쪽에 있는 테이블의 외래키를 관리해줘야 함.
     // 일대다 단방향 연관관계에서는 '다'쪽 테이블 필드에 @JoinColumn을 사용해서 연관관계의 주인을 명시해줘야 함.
     // 그렇게 하지 않은 경우엔 JPA에서 조인 테이블을 생성하게 됨.
@@ -56,7 +56,7 @@ public class Board {
     // 공식적으로 일대다 양방향 매핑은 없음. 굳이 사용한다면 아래와 같은 형태로 사용.
     // ex) @JoinColumn(name = "team_id", insertable = false, updatable = false)
 
-    // TODO: cascadeType을 이용한 영속성 전이
+    // NOTE: cascadeType을 이용한 영속성 전이
     // 부모 엔티티 삭제시 연관관계가 매핑된 자식 엔티티가 고아 객체가 되지 않도록 하기 위해 사용.
     // cascade = CascadeType.REMOVE 또는 cascade = {CascadeType.ALL}, orphanRemoval = true 옵션을 적용.
     // 이와 같이 영속성 전이를 통해 생명주기를 관리할 수 있음.

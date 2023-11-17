@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: UserDetailsService
+// NOTE: UserDetailsService
 // 사용자 조회를 위해 UserDetailsService 인터페이스를 구현
 
 @Service

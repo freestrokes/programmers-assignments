@@ -85,7 +85,7 @@ public class OrderService implements OrderRequestService {
             );
         });
 
-        // TODO: CASE1) 1:N 양방향 매핑 조회 후 DTO 변환 (stream 이용한 방법)
+        // NOTE: CASE1) 1:N 양방향 매핑 조회 후 DTO 변환 (stream 이용한 방법)
         // 게시글 조회
 //        List<OrderDto.ResponseDto> ordersResponseDto = orderRepository.findAll(pageable)
 //            .stream()
@@ -109,7 +109,7 @@ public class OrderService implements OrderRequestService {
 //            })
 //            .collect(Collectors.toList());
 
-        //TODO: CASE2) 1:N 양방향 매핑 조회 후 DTO 변환 (for문 이용한 방법)
+        //NOTE: CASE2) 1:N 양방향 매핑 조회 후 DTO 변환 (for문 이용한 방법)
 //        List<Board> boardList = orderRepository.findAll();
 //        List<OrderDto.ResponseDto> ordersResponseDto = new ArrayList<>();
 //
@@ -207,7 +207,7 @@ public class OrderService implements OrderRequestService {
         // 주문 조회
         Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
-        // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
+        // NOTE: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
         // board builder() 생성 없이 findBoard > updateBoard() 호출하는 것 만으로도 저장 가능
 //        findBoard.updateBoard(
@@ -216,7 +216,7 @@ public class OrderService implements OrderRequestService {
 //            boardRequestDto.getAuthor()
 //        );
 
-        // TODO: @Transactional 어노테이션이 없이 update 하려는 경우
+        // NOTE: @Transactional 어노테이션이 없이 update 하려는 경우
 //        Board board = Board.builder()
 //            .title(boardRequestDto.getTitle())
 //            .content(boardRequestDto.getContent())
@@ -274,7 +274,7 @@ public class OrderService implements OrderRequestService {
         // 주문 조회
         Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
-        // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
+        // NOTE: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
         // board builder() 생성 없이 findBoard > updateBoard() 호출하는 것 만으로도 저장 가능
 //        findBoard.updateBoard(
@@ -283,7 +283,7 @@ public class OrderService implements OrderRequestService {
 //            boardRequestDto.getAuthor()
 //        );
 
-        // TODO: @Transactional 어노테이션이 없이 update 하려는 경우
+        // NOTE: @Transactional 어노테이션이 없이 update 하려는 경우
 //        Board board = Board.builder()
 //            .title(boardRequestDto.getTitle())
 //            .content(boardRequestDto.getContent())
@@ -341,7 +341,7 @@ public class OrderService implements OrderRequestService {
         // 주문 조회
         Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
-        // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
+        // NOTE: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
         // board builder() 생성 없이 findBoard > updateBoard() 호출하는 것 만으로도 저장 가능
 //        findBoard.updateBoard(
@@ -350,7 +350,7 @@ public class OrderService implements OrderRequestService {
 //            boardRequestDto.getAuthor()
 //        );
 
-        // TODO: @Transactional 어노테이션이 없이 update 하려는 경우
+        // NOTE: @Transactional 어노테이션이 없이 update 하려는 경우
 //        Board board = Board.builder()
 //            .title(boardRequestDto.getTitle())
 //            .content(boardRequestDto.getContent())
@@ -408,7 +408,7 @@ public class OrderService implements OrderRequestService {
         // 주문 조회
         Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
-        // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
+        // NOTE: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
         // board builder() 생성 없이 findBoard > updateBoard() 호출하는 것 만으로도 저장 가능
 //        findBoard.updateBoard(
@@ -417,7 +417,7 @@ public class OrderService implements OrderRequestService {
 //            boardRequestDto.getAuthor()
 //        );
 
-        // TODO: @Transactional 어노테이션이 없이 update 하려는 경우
+        // NOTE: @Transactional 어노테이션이 없이 update 하려는 경우
 //        Board board = Board.builder()
 //            .title(boardRequestDto.getTitle())
 //            .content(boardRequestDto.getContent())
@@ -475,7 +475,7 @@ public class OrderService implements OrderRequestService {
         // 주문 조회
         Order findOrder = orderRepository.findById(orderId).orElseThrow(NoSuchElementException::new);
 
-        // TODO: @Transactional 어노테이션 사용하여 update 하려는 경우
+        // NOTE: @Transactional 어노테이션 사용하여 update 하려는 경우
         // @Transactional 어노테이션을 명시하여 repository save() 호출 없이 저장 가능.
         // board builder() 생성 없이 findBoard > updateBoard() 호출하는 것 만으로도 저장 가능
 //        findBoard.updateBoard(
@@ -484,7 +484,7 @@ public class OrderService implements OrderRequestService {
 //            boardRequestDto.getAuthor()
 //        );
 
-        // TODO: @Transactional 어노테이션이 없이 update 하려는 경우
+        // NOTE: @Transactional 어노테이션이 없이 update 하려는 경우
 //        Board board = Board.builder()
 //            .title(boardRequestDto.getTitle())
 //            .content(boardRequestDto.getContent())
